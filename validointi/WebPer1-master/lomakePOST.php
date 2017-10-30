@@ -1,16 +1,52 @@
 <?php
 
-echo ("Etunimi: ". $_POST["etunimi"]);
-echo "</br>";
-echo ("Sukunimi: ". $_POST["sukunimi"]);
-echo "</br>";
-echo ("Sähköposti: ". $_POST["sahkoposti"]);
-echo "</br>";
-echo ("Puhelinnumero: ". $_POST["puhelin"]);
-echo "</br>";
-echo ("Osoite: ". $_POST["osoite"]);
-echo "</br>";
-echo ("Postinumero: ". $_POST["postinumero"]);
-echo "</br>";
-echo ("Salasana: ". $_POST["salasana"]);
-echo "</br>";
+$etunimi= "";
+$sukunimi= "";
+$email = "";
+$salasana = "";
+$error=false;
+
+if ($_SERVER["REQUEST_METHOD"] =="GET"){
+    if(empty($_POST["etunimi"])){
+        $error=true;
+    }else{
+        $etunimi = htmlspecialchars($_POST["etunimi"]);
+    }
+
+    if(empty($_POST["sukunimi"])){
+        $error=true;
+
+    }else{
+        $etunimi = htmlspecialchars($_POST["sukunimi"]);
+    }
+
+    if(empty($_POST["sahkoposti"])){
+        $error=true;
+
+    }else{
+        $email = htmlspecialchars($_POST["sahkoposti"]);
+    }
+
+    if(empty($_POST["salasana"])){
+        $error=true;
+
+    }else{
+        $salasana = htmlspecialchars($_POST["salasana"]);
+    }
+    if(!$error){
+        echo "Henkilö: $etunimi $sukunimi";
+        echo "</br>";
+        echo "Sähköposti $email";
+        echo "</br>";
+        echo "Salasana $salasana";
+        echo "</br>";
+        echo ("Puhelinnumero: ". htmlspecialchars($_POST["puhelin"]));
+        echo "</br>";
+        echo ("Osoite: ". htmlspecialchars($_POST["osoite"]));
+        echo "</br>";
+        echo ("Postinumero: ". htmlspecialchars($_POST["postinumero"]));
+        echo "</br>";
+    }else{
+        echo "Asioita puuttui!";
+    }
+}
