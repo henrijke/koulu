@@ -1,0 +1,91 @@
+
+
+CREATE TABLE kontakti(
+ID INT PRIMARY KEY AUTO_INCREMENT,
+ETUNIMI CHAR(25),
+SUKUNIMI CHAR(30),
+PUHELIN CHAR(15),
+YRITYS INT(5)
+
+);
+
+DROP TABLE kontakti;
+
+INSERT INTO kontakti
+VALUES(
+'Matti',
+'Tatti',
+'0984901284091'
+);
+
+INSERT INTO kontakti
+VALUES(
+'Matti',
+'Tatti',
+'0984901245791'
+);
+
+SELECT
+ 	SUKUNIMI,
+ 	ID,
+ 	PUHELIN
+ FROM
+ 	kontakti;
+ 	
+ 	SELECT *
+ FROM
+ 	kontakti
+ WHERE
+ 	kontakti.ID=1;
+ 	
+ 	
+ 	INSERT INTO kontakti(
+ 	ETUNIMI,
+ 	SUKUNIMI,
+ 	PUHELIN
+ 	)VALUES(
+ 	'Matti',
+ 	'Tatti',
+ 	'345235'
+ 	),(
+ 	'Matti',
+ 	'Tatti',
+ 	'234645645'
+ 	);
+
+=============================
+
+	CREATE TABLE yritys(
+	ID INT PRIMARY KEY AUTO_INCREMENT,
+	ETUNIMI CHAR(30),
+	OSOITE CHAR(50)
+	);
+	
+	INSERT INTO yritys(
+		ETUNIMI,
+		OSOITE
+		)VALUES(
+		'Esan Esso',
+		,'Esan katu 1'
+		),(
+		'Ollin Omenakauppa',
+		'Ollinkuja 5'
+			);
+			
+			
+===========================
+			Liitostaulu: 
+			
+			CREATE TABLE kontakti_yritys(
+			KONTAKTI INT,
+			YRITYS INT
+			);
+			
+			INSERT INTO kontakti_yritys VALUES (
+			1,1),(2,1);
+			
+			SELECT * FROM `yritys`, kontakti, kontakti_yritys
+			
+============================
+
+	SELECT
