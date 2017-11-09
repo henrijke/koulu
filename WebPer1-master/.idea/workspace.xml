@@ -34,8 +34,8 @@
       <file leaf-file-name="lomakeGET.php" pinned="false" current-in-tab="true">
         <entry file="file:///Volumes/henrijke/public_html/validointi/WebPer1-master/lomakeGET.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="780">
-              <caret line="52" column="0" lean-forward="false" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
+            <state relative-caret-position="405">
+              <caret line="27" column="1" lean-forward="true" selection-start-line="27" selection-start-column="1" selection-end-line="27" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -192,12 +192,12 @@
       <workItem from="1509015810335" duration="3860000" />
       <workItem from="1509085237049" duration="7110000" />
       <workItem from="1509347976509" duration="7588000" />
-      <workItem from="1509359898395" duration="4751000" />
+      <workItem from="1509359898395" duration="4833000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="23309000" />
+    <option name="totallyTimeSpent" value="23391000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="985" y="38" width="1501" height="1325" extended-state="0" />
@@ -438,8 +438,8 @@
     </entry>
     <entry file="file:///Volumes/henrijke/public_html/validointi/WebPer1-master/lomakeGET.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="780">
-          <caret line="52" column="0" lean-forward="false" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
+        <state relative-caret-position="405">
+          <caret line="27" column="1" lean-forward="true" selection-start-line="27" selection-start-column="1" selection-end-line="27" selection-end-column="1" />
           <folding />
         </state>
       </provider>

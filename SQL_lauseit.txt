@@ -89,3 +89,462 @@ SELECT
 ============================
 
 	SELECT
+	
+	
+	
+	CREATE table kontaktit(
+	ID INT UNIQUE AUTO_INCREMENT,
+	ETUNIMI CHAR(25),
+	SUKUNIMI CHAR(25),
+	
+		);
+		
+		ALTER TABLE kontakti
+		ADD ÄITI INT,
+		ADD ISÄ INT;
+		
+		INSERT INTO kontakti(
+		ETUNIMI,
+		SUKUNIMI,
+		PUHELIN
+		)
+		VALUES(
+		'Maija',
+		'Malja',
+		'0909090'
+		),(
+		'Kaisa',
+		'Korona',
+		NULL
+			)
+			
+			
+===============================00
+
+UPDATE kontakti SET ÄITI=3 WHERE ID=1 OR ID=5;
+UPDATE kontakti SET ISÄ=2 WHERE ID=1 OR ID=5;
+
+hae kontaktin vanhemmat
+
+SELECT LAPSI.ETUNIMI AS LAPSI,
+ISÄ.ETUNIMI AS ISÄ,
+ÄITI.ETUNIMI AS ÄITI
+FROM
+kontakti AS LAPSI,
+kontakti AS ISÄ,
+kontakti AS ÄITI
+WHERE
+LAPSI.ISÄ = ISÄ.ID AND
+LAPSI.ÄITI = ÄITI.ID;
+
+
+SELECT * FROM kontakti WHERE ID=1 OR ID= 5;
+========================================
+
+
+
+CREATE TABLE tuote(
+	ID INT UNIQUE AUTO_INCREMENT,
+	NIMI CHAR(25),
+	HINTA DECIMAL
+	);
+	
+	CREATE TABLE tuote_kontakti(
+	KONTAKTI INT,
+	TUOTE INT,
+	OSTOPVM DATE
+	);
+
+INSERT INTO tuote(
+NIMI,
+HINTA)VALUES(
+'Maito',
+0.95
+),(
+'Juusto',
+3.45
+),(
+'Tee',
+1.5
+),(
+'Näkkileipä',
+2.55
+);
+
+INSERT INTO tuote_kontakti VALUES	(
+1,
+1,
+'2017-09-09'
+);
+
+//VERSIO 1
+
+SELECT
+K.SUKUNIMI AS ASIAKAS,
+T.NIMI AS TUOTE,
+TK.OSTOPVM
+FROM kontakti AS K,
+tuote AS T,
+tuote_kontakti AS TK
+WHERE
+K.ID = TK.KONTAKTI AND
+T.ID = TK.TUOTE;
+
+
+//VERSIO 2
+
+SELECT
+K.SUKUNIMI AS ASIAKAS,
+T.NIMI AS TUOTE,
+TK.OSTOPVM
+FROM kontakti AS K
+INNER JOIN tuote_kontakti AS TK ON K.ID = TK.KONTAKTI
+INNER JOIN tuote AS T ON T.ID = TK.TUOTE;
+
+
+==========
+
+Kyselyyn mukaan myös ne asiakkaat jotka eivät ostaneet mitään:
+
+SELECT
+K.SUKUNIMI AS ASIAKAS,
+T.NIMI AS TUOTE,
+TK.OSTOPVM
+FROM kontakti AS K
+LEFT JOIN tuote_kontakti AS TK ON K.ID = TK.KONTAKTI
+LEFT JOIN tuote AS T ON T.ID = TK.TUOTE;
+
+===============
+
+Kyselyyn mukaan ne tuotteet jotka ei kelvenneet kellekkään
+
+SELECT
+K.SUKUNIMI AS ASIAKAS,
+T.NIMI AS TUOTE,
+TK.OSTOPVM
+FROM kontakti AS K
+RIGHT JOIN tuote_kontakti AS TK ON K.ID = TK.KONTAKTI
+RIGHT JOIN tuote AS T ON T.ID = TK.TUOTE;
+
+
+==================
+
+Haetaan sekä prospektit, että kelpaamattomat tuotteet (yhdessä asiakkaiden ja ostosten kanssa)
+
+SELECT
+K.SUKUNIMI AS ASIAKAS,
+T.NIMI AS TUOTE,
+TK.OSTOPVM
+FROM kontakti AS K
+LEFT JOIN tuote_kontakti AS TK ON K.ID = TK.KONTAKTI
+LEFT JOIN tuote AS T ON T.ID = TK.TUOTE
+
+UNION ALL
+
+SELECT
+K.SUKUNIMI AS ASIAKAS,
+T.NIMI AS TUOTE,
+TK.OSTOPVM
+FROM kontakti AS K
+RIGHT JOIN tuote_kontakti AS TK ON K.ID = TK.KONTAKTI
+RIGHT JOIN tuote AS T ON T.ID = TK.TUOTE;
+
+======================================0
+
+koonti(aggregate)-funktio
+
+1. COUNT(*) KÄY KANSSA
+
+SELECT
+	COUNT(SSN)
+FROM
+	employee;
+
+
+SELECT
+	SUM (SALARY)
+FROM
+	employee;
+	
+SELECT
+	AVG(SALARY)
+FROM
+	employee;
+	
+	
+Hae työntekijät osastoittain
+SELECT
+	D.DNAME AS OSASOSTO,
+	COUNT(E.SSN) AS 'Työntekijöiden lkm'
+FROM
+	employee AS E,
+	department AS D
+WHERE
+	E.DEPTNO = D.DNO;
+
+
+
+===================00
+
+
+
+
+SELECT
+	DNAME AS KKK,
+	COUNT(E.SSN) AS 'FDFD'
+FROM
+	employee AS E,
+	department aAS D
+WHERE
+	E.DEPTNO = D.DNO
+GROUP BY
+	D.DNAME;
+
+
+
+
+8888======================================DDDDD
+
+
+CREATE TABLE vk_tuotteet(
+tlID INT(11) PRIMARY KEY,
+tuotekoodi CHAR(30),
+nimi CHAR(30),
+kuvaus CHAR(50),
+hinta FLOAT(11),
+pvm DATE
+);
+
+create
+
+888(==========================================DDDD
+
+
+Kysely 2: Hae kaikkien Tampereella tehtävien projektien työntekijöiden esimiesten nimet
+
+SELECT
+	S.FNAME AS Etunimi,
+	S.LNAME AS Sukunimi,
+	P.Pname AS Projekti,
+	E.LNAME AS Työntekijä
+FROM
+	location AS L,
+	project AS P,
+	employee AS E,
+	employee AS S,
+	works_on AS W
+WHERE
+	E.supervisor = S.SSN AND
+	W.employee = E.SSN AND
+	W.projno = P.pno AND
+	P.location = L.ID AND
+	L.ID=2;
+
+
+
+===================================0
+
+Tapahtuman käsittely / hallinta (Transaction
+
+SUM(V.HOURS)AS 'Osastoittain'
+
+SELECT
+	P.PNAME,
+ 	SUM(W.HOURS)AS 'Projekteittain'
+ FROM 
+	works_on AS W,
+	works_on AS V,
+	project AS P,
+	employee AS E,
+	department AS D
+WHERE
+	W.PNUMBER = P.PNUMBER AND
+
+-----------------------------------EI
+
+SELECT
+	P.PNAME AS PROJEKTI,
+	SUM(W.HOURS)AS TUNNIT
+FROM
+	project AS P
+	works_on AS W
+WHERE
+	W.ProjNo=P.PNo
+
+----------------------------------EI
+
+SELECT
+	P.PNAME
+FROM
+	project AS P,
+	works_on AS W,
+	employee AS E
+WHERE
+	W.ProjNo = P.PNo 
+AND
+	E.Ssn = W.Employee
+-------------------
+
+//TEHT 1 TOIMII PUOLITTAIN
+
+SELECT
+	P.PNAME AS PROJEKTI,
+	D.DNAME AS OSASTO,
+	SUM(W.HOURS)AS TUNNIT
+FROM
+	works_on AS W,
+	department AS D
+WHERE
+	P.PNo = D.DNo
+LEFT JOIN
+	project AS P
+ON
+	W.ProjNo=P.PNo
+
+GROUP BY
+	PNAME
+------------------------
+
+//OSASTOT TOIMII
+
+SELECT
+	D.DNAME AS OSASTO,
+	SUM(W.HOURS) AS TUNNIT
+FROM
+	works_on AS W,
+	project AS P,
+	department AS D
+WHERE
+	W.ProjNo = P.PNo
+AND
+	P.DeptNo = D.DNo
+GROUP BY
+	DNAME
+
+-----------------------
+1700
+
+	
+	SELECT
+	D.DNAME AS OSASTO,
+    P.PNAME AS PROJEKTI,
+    SUM(W.HOURS)
+FROM
+ 	department AS D,
+    project AS P,
+    works_on AS W
+GROUP BY
+	PNAME
+
+
+
+------------------------
+
+
+
+SELECT
+	D.DNAME AS OSASTO,
+    SUM(W.HOURS) AS HOURS
+FROM
+ 	department AS D,
+    project AS P,
+    works_on AS W
+WHERE
+	W.ProjNo=P.PNo
+    AND
+    P.Pno = D.DNo
+GROUP BY
+	DNAME
+
+
+------------------------TEHT 2 melkeen valmis!?!?!
+
+SELECT
+	P.PNAME AS Projekti,
+    SUM(E.Salary) AS hinta
+FROM
+	project AS P,
+    works_on AS W,
+    employee AS E
+WHERE
+	E.Ssn=W.Employee
+AND
+	P.PNo = W.ProjNo
+GROUP BY
+	Pname
+ORDER BY Salary DESC
+
+-----------------------TEHT 3 VALMIS
+
+SELECT
+	E.FNAME AS 'Esimiehen Etunimi',
+	E.LNAME AS 'Esimiehen Sukunimi',
+	D.DName AS 'Sukulaisen nimi'
+FROM
+	employee AS E,
+	dependent AS D
+WHERE
+	D.Employee = E.Ssn
+AND
+	E.Supervisor=0
+
+---------------------TEHT 4 VALMIS
+
+SELECT
+	E.FNAME AS 'Työntekijän etunimi',
+	D.DName AS 'Työntekijän sisarus',
+	W.Hours AS 'Työtunnit',
+	P.PName AS 'Projektin nimi'
+FROM
+	works_on AS W,
+	employee AS E,
+	dependent AS D,
+	project AS P
+WHERE
+	D.Employee = E.Ssn
+AND
+	D.BirthDate = E.Bdate
+AND
+	E.Ssn = W.Employee
+AND
+	W.ProjNo = P.PNo
+
+------------------TEHT 1 VALMIS
+
+SELECT
+	P.Pname AS Projekti,
+    D.Dname AS OSasto,
+    SUM(W.Hours) AS TUNNIT
+FROM
+	works_on AS W
+INNER JOIN
+	project AS P
+ON
+	W.ProjNo=P.Pno
+INNER JOIN
+        department AS D
+ON
+	P.DeptNo= D.DNo
+GROUP BY
+	PNAME
+
+-----------TEHT 2 VALMIS
+
+SELECT
+	P.PNAME AS Projekti,
+  SUM(E.Salary) AS hinta
+FROM
+	project AS P,
+    works_on AS W,
+    employee AS E
+WHERE
+	E.Ssn=W.Employee
+AND
+	P.PNo = W.ProjNo
+GROUP BY
+	Pname
+ORDER BY SUM(Salary) DESC
+LIMIT 1
+----------------
+
+
